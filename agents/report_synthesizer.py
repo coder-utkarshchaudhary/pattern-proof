@@ -12,7 +12,7 @@ from datetime import datetime
 
 from agents.base import make_manager
 from db.nosql import evidence_col
-from services.bus import EventBus, EventEnvelope
+from backend.agents.bus import EventBus, EventEnvelope
 from utils.logger import get_logger
 
 logger = get_logger(__name__)

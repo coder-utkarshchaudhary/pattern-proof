@@ -31,7 +31,7 @@ from models.schema import (
     AuditStatusResponse,
 )
 from models.taxonomy import AuditStatus
-from services.bus import EventEnvelope
+from backend.agents.bus import EventEnvelope
 from utils.logger import get_logger
 
 router = APIRouter()

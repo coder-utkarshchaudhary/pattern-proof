@@ -25,7 +25,7 @@ from config import settings
 from db.sql import get_supabase, AuditRepo
 from models.schema import AuditStreamEvent
 from models.taxonomy import AuditStatus
-from services.bus import EventBus, EventEnvelope
+from backend.agents.bus import EventBus, EventEnvelope
 from utils.logger import get_logger
 
 logger = get_logger(__name__)

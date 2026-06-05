@@ -12,7 +12,7 @@ from services.static.css_analysis import analyze_css
 from services.static.visual_analysis import analyze_visual
 from services.static.ocr_analysis import analyze_ocr
 from services.static.accessibility_analysis import analyze_accessibility
-from services.bus import EventBus, EventEnvelope
+from backend.agents.bus import EventBus, EventEnvelope
 from db.nosql import pages_col
 from utils.logger import get_logger
 

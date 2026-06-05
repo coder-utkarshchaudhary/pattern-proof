@@ -13,7 +13,7 @@ from config import settings
 from db.nosql import evidence_col
 from services.dynamic.state_exploration import record_state, record_transition
 from services.dynamic.network_inspection import record_network_event
-from services.bus import EventBus, EventEnvelope
+from backend.agents.bus import EventBus, EventEnvelope
 
 logger = get_logger(__name__)
 

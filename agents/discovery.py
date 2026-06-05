@@ -15,7 +15,7 @@ from api.dependencies import validate_audit_url
 from config import settings
 from db.nosql import pages_col
 from models.taxonomy import PageType
-from services.bus import EventBus, EventEnvelope
+from backend.agents.bus import EventBus, EventEnvelope
 from tools.scrapper import (
     classify_page_type,
     extract_links_from_html,

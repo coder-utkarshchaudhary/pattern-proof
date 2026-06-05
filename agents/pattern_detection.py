@@ -17,7 +17,7 @@ from models.taxonomy import (
     SEVERITY_WEIGHTS, EVIDENCE_DIVERSITY_MULTIPLIERS,
     EVIDENCE_DIVERSITY_MAX_MULTIPLIER, TRAJECTORY_MULTIPLIER, PRIVACY_MULTIPLIER,
 )
-from services.bus import EventBus, EventEnvelope
+from backend.agents.bus import EventBus, EventEnvelope
 from utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -341,7 +341,7 @@ async def run_pattern_detection(audit_id: str, config: dict, bus: EventBus) -> N
 
         # 5. Add findings to Neo4j knowledge graph
         try:
-            from services.knowledge_graph import get_knowledge_graph_service
+            from backend.agents.knowledge_graph import get_knowledge_graph_service
             kg = get_knowledge_graph_service()
             for f in persisted_findings:
                 await kg.add_finding_node(

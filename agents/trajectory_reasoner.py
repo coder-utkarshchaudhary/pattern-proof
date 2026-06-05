@@ -17,7 +17,7 @@ from datetime import datetime
 from agents.base import make_manager
 from db.nosql import evidence_col, states_col, transitions_col
 from db.sql import get_supabase, FindingRepo
-from services.bus import EventBus, EventEnvelope
+from backend.agents.bus import EventBus, EventEnvelope
 from models.taxonomy import MathurCategory, MathurPattern, FindingSeverity, JurisdictionScope, TRAJECTORY_MULTIPLIER
 from utils.logger import get_logger
 
@@ -58,7 +58,7 @@ async def analyze_trajectories(audit_id: str, config: dict) -> list[dict]:
     # Get KG path analysis
     kg_summary = {}
     try:
-        from services.knowledge_graph import get_knowledge_graph_service
+        from backend.agents.knowledge_graph import get_knowledge_graph_service
         kg = get_knowledge_graph_service()
         cancellation = await kg.get_cancellation_path(audit_id)
         consent_asym = await kg.get_consent_asymmetry(audit_id)

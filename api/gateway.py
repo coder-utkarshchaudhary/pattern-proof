@@ -43,8 +43,8 @@ logger = get_logger(__name__)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # --- Startup ---
-    from services.bus import create_event_bus
-    from services.orchestrator import create_orchestrator
+    from backend.agents.bus import create_event_bus
+    from backend.agents.orchestrator import create_orchestrator
 
     bus = create_event_bus()
     await bus.start()
@@ -61,7 +61,7 @@ async def lifespan(app: FastAPI):
 
     async def _handle_discovery_started(envelope) -> None:
         """discovery.started → run full discovery, emit discovery.completed."""
-        from services.discovery import run_discovery
+        from backend.agents.discovery import run_discovery
         config = envelope.payload.get("config", {})
         url = envelope.payload.get("url", "")
         if not url:
@@ -101,8 +101,8 @@ async def lifespan(app: FastAPI):
         audit_id = str(envelope.audit_id)
         config = envelope.payload.get("config", {})
 
-        from services.pattern_detection import run_pattern_detection
-        from services.report_synthesizer import run_report_synthesis
+        from backend.agents.pattern_detection import run_pattern_detection
+        from backend.agents.report_synthesizer import run_report_synthesis
 
         logger.info("report.requested: running pattern detection", extra={"audit_id": audit_id})
         result = await run_pattern_detection(audit_id, config, bus)
