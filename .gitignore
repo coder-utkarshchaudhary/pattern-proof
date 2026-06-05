@@ -1,0 +1,10 @@
+# Environment information
+.env
+.venv/
+
+# Logs
+logs/
+*.log
+
+# External files
+.claude/
