@@ -39,9 +39,20 @@ def _build_file_handler() -> logging.FileHandler:
 
 
 def get_logger(name: Optional[str] = None) -> logging.Logger:
-    logger = logging.getLogger(name or "outsource_ai")
+    """
+    Return a logger that writes to both stdout and logs/log.log.
+
+    Standard context fields supported via extra={...} on every log call:
+        request_id, audit_id, task_id, service, worker_id, phase
+
+    Usage:
+        logger = get_logger(__name__)
+        logger.info("msg", extra={"audit_id": "...", "phase": "discovery"})
+    """
+    logger = logging.getLogger(name or "pattern_proof")
     if not logger.handlers:
         logger.addHandler(_build_stream_handler())
+        logger.addHandler(_build_file_handler())
     logger.setLevel(getattr(logging, settings.log_level.upper(), logging.DEBUG))
     logger.propagate = False
     return logger

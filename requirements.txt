@@ -1,0 +1,60 @@
+# Pattern Proof — backend dependencies
+# Install: pip install -r requirements.txt
+
+# --- Web framework ---
+fastapi>=0.115
+uvicorn[standard]>=0.30
+
+# --- Data validation / settings ---
+pydantic>=2.7
+pydantic-settings>=2.3
+pydantic-ai>=0.0.14
+
+# --- Supabase (async v2) ---
+supabase>=2.7
+
+# --- MongoDB (async) ---
+motor>=3.5
+pymongo>=4.8
+
+# --- Neo4j (async driver) ---
+neo4j>=5.20
+
+# --- Redis (async) ---
+redis>=5.0
+
+# --- Messaging ---
+aiokafka>=0.10
+
+# --- HTTP client ---
+httpx>=0.27
+
+# --- LLM SDKs ---
+anthropic>=0.30
+
+# --- Auth ---
+python-jose[cryptography]>=3.3
+argon2-cffi>=23.1
+
+# --- Multipart / file upload ---
+python-multipart>=0.0.9
+
+# --- Browser automation ---
+playwright>=1.44
+
+# --- HTML / CSS parsing ---
+beautifulsoup4>=4.12
+
+# --- Image processing ---
+pillow>=10.3
+
+# --- PDF generation ---
+weasyprint>=62.3
+markdown>=3.5
+
+# --- OCR (swap point for future upgrade) ---
+pytesseract>=0.3.10
+
+# --- Testing ---
+pytest>=8.2
+pytest-asyncio>=0.23

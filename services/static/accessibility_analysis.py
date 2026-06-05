@@ -1,4 +1,4 @@
-"""CSS analysis via Gemma 4 31B."""
+"""Accessibility analysis via Gemma 4 31B."""
 import json
 import uuid
 from datetime import datetime
@@ -15,19 +15,19 @@ _agent = None
 def _get_agent():
     global _agent
     if _agent is None:
-        _agent = make_analyzer("css_analyzer")
+        _agent = make_analyzer("accessibility_analyzer")
     return _agent
 
 
-async def analyze_css(
+async def analyze_accessibility(
     audit_id: str,
     page_id: str,
     url: str,
-    css_uri: str,
+    a11y_uri: str,
     taxonomy_scope: list,
 ) -> list:
     """
-    Run CSS analyzer (Gemma) on page artifacts.
+    Run accessibility analyzer (Gemma) on accessibility tree artifact.
     Returns list of evidence records stored in MongoDB.
     """
     agent = _get_agent()
@@ -36,10 +36,10 @@ async def analyze_css(
             "audit_id": audit_id,
             "page_id": page_id,
             "url": url,
-            "css_snapshot_uri": css_uri,
+            "accessibility_tree_uri": a11y_uri,
             "taxonomy_scope": taxonomy_scope,
             "instructions": (
-                "Analyze the CSS artifacts. Return the evidence JSON array."
+                "Analyze the accessibility tree. Return the evidence JSON array."
             ),
         }
     )
@@ -56,17 +56,17 @@ async def analyze_css(
 
     stored = []
     for ev in evidence_list:
-        # Build artifact_uris; filter empty strings; fall back to css_uri.
+        # Build artifact_uris; filter empty strings; fall back to a11y_uri.
         raw_uris = ev.get("artifact_uris") or []
-        artifact_uris = [u for u in raw_uris if u] or ([css_uri] if css_uri else [])
+        artifact_uris = [u for u in raw_uris if u] or ([a11y_uri] if a11y_uri else [])
 
         ev_doc = {
             "_id": str(uuid.uuid4()),
             "audit_id": audit_id,
             "page_id": page_id,
-            "source": "css",
+            "source": "accessibility",
             "taxonomy_scope": taxonomy_scope,
-            "evidence_type": ev.get("evidence_type", "css_observation"),
+            "evidence_type": ev.get("evidence_type", "a11y_observation"),
             "url": url,
             "selector": ev.get("selector"),
             "region": ev.get("region"),
@@ -81,7 +81,7 @@ async def analyze_css(
         stored.append(ev_doc)
 
     logger.info(
-        "CSS analysis done",
+        "Accessibility analysis done",
         extra={
             "audit_id": audit_id,
             "page_id": page_id,

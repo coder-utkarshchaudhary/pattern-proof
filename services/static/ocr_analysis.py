@@ -1,4 +1,4 @@
-"""CSS analysis via Gemma 4 31B."""
+"""OCR analysis via Gemma 4 31B (LLM-assisted OCR; swap point for pytesseract)."""
 import json
 import uuid
 from datetime import datetime
@@ -15,19 +15,20 @@ _agent = None
 def _get_agent():
     global _agent
     if _agent is None:
-        _agent = make_analyzer("css_analyzer")
+        _agent = make_analyzer("ocr_analyzer")
     return _agent
 
 
-async def analyze_css(
+async def analyze_ocr(
     audit_id: str,
     page_id: str,
     url: str,
-    css_uri: str,
+    ocr_text_uri: str,
+    screenshot_uri: str,
     taxonomy_scope: list,
 ) -> list:
     """
-    Run CSS analyzer (Gemma) on page artifacts.
+    Run OCR analyzer (Gemma) on visible text and screenshot artifacts.
     Returns list of evidence records stored in MongoDB.
     """
     agent = _get_agent()
@@ -36,10 +37,11 @@ async def analyze_css(
             "audit_id": audit_id,
             "page_id": page_id,
             "url": url,
-            "css_snapshot_uri": css_uri,
+            "ocr_text_uri": ocr_text_uri,
+            "screenshot_uri": screenshot_uri,
             "taxonomy_scope": taxonomy_scope,
             "instructions": (
-                "Analyze the CSS artifacts. Return the evidence JSON array."
+                "Analyze the OCR text and screenshot. Return the evidence JSON array."
             ),
         }
     )
@@ -54,19 +56,22 @@ async def analyze_css(
     else:
         evidence_list = []
 
+    # Build the fallback artifact list from both OCR artifacts (filter empties).
+    fallback_uris = [u for u in [ocr_text_uri, screenshot_uri] if u]
+
     stored = []
     for ev in evidence_list:
-        # Build artifact_uris; filter empty strings; fall back to css_uri.
+        # Build artifact_uris; filter empty strings; fall back to both OCR artifacts.
         raw_uris = ev.get("artifact_uris") or []
-        artifact_uris = [u for u in raw_uris if u] or ([css_uri] if css_uri else [])
+        artifact_uris = [u for u in raw_uris if u] or fallback_uris
 
         ev_doc = {
             "_id": str(uuid.uuid4()),
             "audit_id": audit_id,
             "page_id": page_id,
-            "source": "css",
+            "source": "ocr",
             "taxonomy_scope": taxonomy_scope,
-            "evidence_type": ev.get("evidence_type", "css_observation"),
+            "evidence_type": ev.get("evidence_type", "ocr_observation"),
             "url": url,
             "selector": ev.get("selector"),
             "region": ev.get("region"),
@@ -81,7 +86,7 @@ async def analyze_css(
         stored.append(ev_doc)
 
     logger.info(
-        "CSS analysis done",
+        "OCR analysis done",
         extra={
             "audit_id": audit_id,
             "page_id": page_id,
