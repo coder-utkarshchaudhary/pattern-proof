@@ -8,8 +8,8 @@ from urllib.parse import urlparse, urljoin, urlunparse
 import httpx
 from bs4 import BeautifulSoup
 
-from models.taxonomy import PageType
-from utils.logger import get_logger
+from backend.models.taxonomy import PageType
+from backend.utils.logger import get_logger
 
 logger = get_logger(__name__)
 

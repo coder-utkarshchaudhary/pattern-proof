@@ -8,17 +8,17 @@ import json
 import uuid
 from typing import Any
 
-from db.nosql import evidence_col
-from db.sql import get_supabase, FindingRepo
-from agents.base import make_manager
-from models.taxonomy import (
+from backend.db.nosql import evidence_col
+from backend.db.sql import get_supabase, FindingRepo
+from backend.agents.base import make_manager
+from backend.models.taxonomy import (
     MathurCategory, MathurPattern, DPDPDimension, CCPADimension,
     FindingSeverity, JurisdictionScope,
     SEVERITY_WEIGHTS, EVIDENCE_DIVERSITY_MULTIPLIERS,
     EVIDENCE_DIVERSITY_MAX_MULTIPLIER, TRAJECTORY_MULTIPLIER, PRIVACY_MULTIPLIER,
 )
 from backend.agents.bus import EventBus, EventEnvelope
-from utils.logger import get_logger
+from backend.utils.logger import get_logger
 
 logger = get_logger(__name__)
 

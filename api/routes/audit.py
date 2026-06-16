@@ -17,22 +17,22 @@ from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, Request, status
 
-from api.dependencies import (
+from backend.api.dependencies import (
     get_current_user,
     get_redis,
     get_supabase_client,
     validate_audit_url,
 )
-from db.sql import AuditRepo, FindingRepo
-from models.schema import (
+from backend.db.sql import AuditRepo, FindingRepo
+from backend.models.schema import (
     AuditCreateResponse,
     AuditListItem,
     AuditRequest,
     AuditStatusResponse,
 )
-from models.taxonomy import AuditStatus
+from backend.models.taxonomy import AuditStatus
 from backend.agents.bus import EventEnvelope
-from utils.logger import get_logger
+from backend.utils.logger import get_logger
 
 router = APIRouter()
 logger = get_logger(__name__)

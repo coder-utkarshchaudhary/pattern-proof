@@ -8,11 +8,11 @@ import json
 import uuid
 from datetime import datetime
 from urllib.parse import urlparse
-from utils.logger import get_logger
-from config import settings
-from db.nosql import evidence_col
-from services.dynamic.state_exploration import record_state, record_transition
-from services.dynamic.network_inspection import record_network_event
+from backend.utils.logger import get_logger
+from backend.config import settings
+from backend.db.nosql import evidence_col
+from backend.services.dynamic.state_exploration import record_state, record_transition
+from backend.services.dynamic.network_inspection import record_network_event
 from backend.agents.bus import EventBus, EventEnvelope
 
 logger = get_logger(__name__)
@@ -128,7 +128,7 @@ class BrowserExplorationSession:
         screenshot = await page.screenshot(type="png")
 
         # Upload screenshot
-        from db.sql import get_supabase
+        from backend.db.sql import get_supabase
         state_id = str(uuid.uuid4())
         screenshot_path = f"audits/{self.audit_id}/states/{state_id}/screenshot.png"
         try:

@@ -27,18 +27,18 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from jose import jwt
 from pydantic import BaseModel, EmailStr
 
-from api.dependencies import get_current_user
-from config import settings
-from db.sql import RefreshTokenRepo, UserRepo, get_supabase
-from models.schema import (
+from backend.api.dependencies import get_current_user
+from backend.config import settings
+from backend.db.sql import RefreshTokenRepo, UserRepo, get_supabase
+from backend.models.schema import (
     LoginRequest,
     RefreshRequest,
     SignupRequest,
     TokenResponse,
     UserResponse,
 )
-from models.taxonomy import UserRole
-from utils.logger import get_logger
+from backend.models.taxonomy import UserRole
+from backend.utils.logger import get_logger
 
 router = APIRouter()
 logger = get_logger(__name__)

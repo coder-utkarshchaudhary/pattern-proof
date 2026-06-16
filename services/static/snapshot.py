@@ -4,8 +4,8 @@ Uploads artifacts to Supabase Storage under audits/{audit_id}/pages/{page_id}/.
 """
 import json
 
-from utils.logger import get_logger
-from config import settings  # noqa: F401 — imported for consistency with foundation
+from backend.utils.logger import get_logger
+from backend.config import settings  # noqa: F401 — imported for consistency with foundation
 
 logger = get_logger(__name__)
 
@@ -107,7 +107,7 @@ async def _upload_text(
     """Upload text content to Supabase Storage. Return storage path."""
     path = f"audits/{audit_id}/pages/{page_id}/{filename}"
     try:
-        from db.sql import get_supabase
+        from backend.db.sql import get_supabase
 
         client = await get_supabase()
         await client.storage.from_("pattern-proof").upload(
@@ -132,7 +132,7 @@ async def _upload_bytes(
     """Upload raw bytes to Supabase Storage. Return storage path."""
     path = f"audits/{audit_id}/pages/{page_id}/{filename}"
     try:
-        from db.sql import get_supabase
+        from backend.db.sql import get_supabase
 
         client = await get_supabase()
         await client.storage.from_("pattern-proof").upload(

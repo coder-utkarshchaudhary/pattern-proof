@@ -28,9 +28,9 @@ from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from config import settings
-from models.schema import HealthResponse, ReadyResponse
-from utils.logger import get_logger
+from backend.config import settings
+from backend.models.schema import HealthResponse, ReadyResponse
+from backend.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
@@ -73,7 +73,7 @@ async def lifespan(app: FastAPI):
 
     async def _handle_static_started(envelope) -> None:
         """static.started → run static analysis on all discovered pages."""
-        from services.static.manager import run_static_analysis
+        from backend.services.static.manager import run_static_analysis
         config = envelope.payload.get("config", {})
         pages = envelope.payload.get("pages", [])
         await run_static_analysis(str(envelope.audit_id), pages, config, bus)
@@ -82,7 +82,7 @@ async def lifespan(app: FastAPI):
 
     async def _handle_dynamic_started(envelope) -> None:
         """dynamic.started → run browser exploration."""
-        from services.dynamic.browser_exploration import run_dynamic_analysis
+        from backend.services.dynamic.browser_exploration import run_dynamic_analysis
         config = envelope.payload.get("config", {})
         url = envelope.payload.get("url", "")
         pages = envelope.payload.get("pages", [])
@@ -125,10 +125,10 @@ async def lifespan(app: FastAPI):
     # --- Shutdown ---
     await bus.stop()
 
-    from db.nosql import close_motor
+    from backend.db.nosql import close_motor
     await close_motor()
 
-    from db.graph import close_driver
+    from backend.db.graph import close_driver
     await close_driver()
 
     logger.info("Application shutdown complete")
@@ -221,7 +221,7 @@ def create_app() -> FastAPI:
             checks["redis"] = False
 
         try:
-            from db.nosql import get_motor_client
+            from backend.db.nosql import get_motor_client
             client = get_motor_client()
             await client.admin.command("ping")
             checks["mongodb"] = True
@@ -229,7 +229,7 @@ def create_app() -> FastAPI:
             checks["mongodb"] = False
 
         try:
-            from db.graph import get_driver
+            from backend.db.graph import get_driver
             driver = await get_driver()
             async with driver.session() as s:
                 await s.run("RETURN 1")
@@ -244,22 +244,22 @@ def create_app() -> FastAPI:
     # Routers
     # ------------------------------------------------------------------
 
-    from api.routes.auth import router as auth_router
+    from backend.api.routes.auth import router as auth_router
     app.include_router(auth_router, prefix="/auth", tags=["Auth"])
 
-    from api.routes.audit import router as audit_router
+    from backend.api.routes.audit import router as audit_router
     app.include_router(audit_router, prefix="/audits", tags=["Audits"])
 
-    from api.routes.jobs import router as jobs_router
+    from backend.api.routes.jobs import router as jobs_router
     app.include_router(jobs_router, prefix="/jobs", tags=["Jobs"])
 
-    from api.routes.evidence import router as evidence_router
+    from backend.api.routes.evidence import router as evidence_router
     app.include_router(evidence_router, prefix="/evidence", tags=["Evidence"])
 
-    from api.routes.report import router as report_router
+    from backend.api.routes.report import router as report_router
     app.include_router(report_router, prefix="/reports", tags=["Reports"])
 
-    from api.routes.ws import router as ws_router
+    from backend.api.routes.ws import router as ws_router
     app.include_router(ws_router, tags=["WebSocket"])
 
     return app

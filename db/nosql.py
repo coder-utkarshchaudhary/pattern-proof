@@ -11,8 +11,8 @@ Collections:
 """
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase, AsyncIOMotorCollection
 
-from config import settings
-from utils.logger import get_logger
+from backend.config import settings
+from backend.utils.logger import get_logger
 
 logger = get_logger(__name__)
 

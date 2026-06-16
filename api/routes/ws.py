@@ -12,8 +12,8 @@ import redis.asyncio as aioredis
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 from jose import JWTError, jwt
 
-from config import settings
-from utils.logger import get_logger
+from backend.config import settings
+from backend.utils.logger import get_logger
 
 router = APIRouter()
 logger = get_logger(__name__)

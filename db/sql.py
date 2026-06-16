@@ -14,8 +14,8 @@ from datetime import datetime
 
 from supabase import acreate_client, AClient as AsyncClient
 
-from config import settings
-from utils.logger import get_logger
+from backend.config import settings
+from backend.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
@@ -69,7 +69,10 @@ class UserRepo:
             .maybe_single()
             .execute()
         )
-        return res.data
+        if res:
+            return res.data
+
+        return None
 
     async def get_by_id(self, user_id: str) -> dict | None:
         res = (

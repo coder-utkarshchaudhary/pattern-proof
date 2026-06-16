@@ -6,8 +6,8 @@ import hashlib
 import json
 import uuid
 from datetime import datetime
-from db.nosql import states_col, transitions_col
-from utils.logger import get_logger
+from backend.db.nosql import states_col, transitions_col
+from backend.utils.logger import get_logger
 
 logger = get_logger(__name__)
 

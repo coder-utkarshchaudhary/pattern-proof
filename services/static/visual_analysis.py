@@ -3,9 +3,9 @@ import json
 import uuid
 from datetime import datetime
 
-from agents.base import make_analyzer
-from db.nosql import evidence_col
-from utils.logger import get_logger
+from backend.agents.base import make_analyzer
+from backend.db.nosql import evidence_col
+from backend.utils.logger import get_logger
 
 logger = get_logger(__name__)
 

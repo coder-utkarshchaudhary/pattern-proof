@@ -6,15 +6,15 @@ Normalizes outputs into a unified evidence bundle.
 import asyncio
 import uuid as _uuid
 
-from services.static.snapshot import capture_snapshot
-from services.static.dom_analysis import analyze_dom
-from services.static.css_analysis import analyze_css
-from services.static.visual_analysis import analyze_visual
-from services.static.ocr_analysis import analyze_ocr
-from services.static.accessibility_analysis import analyze_accessibility
+from backend.services.static.snapshot import capture_snapshot
+from backend.services.static.dom_analysis import analyze_dom
+from backend.services.static.css_analysis import analyze_css
+from backend.services.static.visual_analysis import analyze_visual
+from backend.services.static.ocr_analysis import analyze_ocr
+from backend.services.static.accessibility_analysis import analyze_accessibility
 from backend.agents.bus import EventBus, EventEnvelope
-from db.nosql import pages_col
-from utils.logger import get_logger
+from backend.db.nosql import pages_col
+from backend.utils.logger import get_logger
 
 logger = get_logger(__name__)
 

@@ -4,7 +4,7 @@ Generates PDF from Markdown using weasyprint.
 Synchronous for small reports; shaped for future async dispatch.
 """
 import markdown
-from utils.logger import get_logger
+from backend.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
@@ -55,7 +55,7 @@ async def generate_pdf_report(audit_id: str) -> bytes:
     Runs weasyprint synchronously in executor to avoid blocking event loop.
     """
     import asyncio
-    from tools.report_builder import build_markdown_report
+    from backend.tools.report_builder import build_markdown_report
     md = await build_markdown_report(audit_id)
     loop = asyncio.get_event_loop()
     pdf_bytes = await loop.run_in_executor(None, markdown_to_pdf_bytes, md)

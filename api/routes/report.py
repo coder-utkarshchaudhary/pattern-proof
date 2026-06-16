@@ -2,11 +2,11 @@
 from fastapi import APIRouter, Depends, HTTPException, Query
 from typing import Annotated
 from fastapi.responses import Response
-from api.dependencies import get_current_user
-from tools.report_builder import build_json_report, build_markdown_report, store_report
-from tools.pdf_generator import generate_pdf_report
-from db.sql import get_supabase, AuditRepo
-from utils.logger import get_logger
+from backend.api.dependencies import get_current_user
+from backend.tools.report_builder import build_json_report, build_markdown_report, store_report
+from backend.tools.pdf_generator import generate_pdf_report
+from backend.db.sql import get_supabase, AuditRepo
+from backend.utils.logger import get_logger
 
 router = APIRouter()
 logger = get_logger(__name__)

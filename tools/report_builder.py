@@ -6,9 +6,9 @@ PDF generation is in pdf_generator.py.
 import json
 from datetime import datetime
 from uuid import UUID
-from db.sql import get_supabase, AuditRepo, FindingRepo, ReportRepo
-from db.nosql import evidence_col, pages_col, states_col
-from utils.logger import get_logger
+from backend.db.sql import get_supabase, AuditRepo, FindingRepo, ReportRepo
+from backend.db.nosql import evidence_col, pages_col, states_col
+from backend.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
@@ -50,7 +50,7 @@ async def build_json_report(audit_id: str) -> dict:
     state_count = await states_col().count_documents({"audit_id": audit_id})
 
     # Compute risk score from findings
-    from models.taxonomy import SEVERITY_WEIGHTS, EVIDENCE_DIVERSITY_MULTIPLIERS, EVIDENCE_DIVERSITY_MAX_MULTIPLIER
+    from backend.models.taxonomy import SEVERITY_WEIGHTS, EVIDENCE_DIVERSITY_MULTIPLIERS, EVIDENCE_DIVERSITY_MAX_MULTIPLIER
     risk_score = 0.0
     for f in findings:
         weight = SEVERITY_WEIGHTS.get(f["severity"], 5.0)

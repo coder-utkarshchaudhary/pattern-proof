@@ -20,9 +20,9 @@ from pydantic_ai.models.openai import OpenAIModel
 from pydantic_ai.providers.anthropic import AnthropicProvider
 from pydantic_ai.providers.openai import OpenAIProvider
 
-from config import settings
-from utils.logger import get_logger
-from utils.parse_json import extract_json
+from backend.config import settings
+from backend.utils.logger import get_logger
+from backend.utils.parse_json import extract_json
 
 logger = get_logger(__name__)
 

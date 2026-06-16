@@ -10,10 +10,10 @@ import json
 import uuid
 from datetime import datetime
 
-from agents.base import make_manager
-from db.nosql import evidence_col
+from backend.agents.base import make_manager
+from backend.db.nosql import evidence_col
 from backend.agents.bus import EventBus, EventEnvelope
-from utils.logger import get_logger
+from backend.utils.logger import get_logger
 
 logger = get_logger(__name__)
 _agent = None
@@ -118,7 +118,7 @@ async def run_report_synthesis(audit_id: str, config: dict, bus: EventBus) -> No
     """
     import uuid as _uuid
     try:
-        from tools.report_builder import build_json_report, store_report
+        from backend.tools.report_builder import build_json_report, store_report
         skeleton = await build_json_report(audit_id)
 
         # Enhance with Claude synthesis

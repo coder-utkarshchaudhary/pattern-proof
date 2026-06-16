@@ -11,19 +11,19 @@ from urllib.parse import urlparse
 import httpx
 from fastapi import HTTPException
 
-from api.dependencies import validate_audit_url
-from config import settings
-from db.nosql import pages_col
-from models.taxonomy import PageType
+from backend.api.dependencies import validate_audit_url
+from backend.config import settings
+from backend.db.nosql import pages_col
+from backend.models.taxonomy import PageType
 from backend.agents.bus import EventBus, EventEnvelope
-from tools.scrapper import (
+from backend.tools.scrapper import (
     classify_page_type,
     extract_links_from_html,
     fetch_robots_txt,
     fetch_sitemap,
     normalize_url,
 )
-from utils.logger import get_logger
+from backend.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
@@ -146,7 +146,7 @@ class DiscoveryService:
                 # Extract links from rendered DOM
                 links = await page.eval_on_selector_all("a[href]", "els => els.map(e => e.href)")
                 for link in links:
-                    from tools.scrapper import normalize_url as nu
+                    from backend.tools.scrapper import normalize_url as nu
                     from urllib.parse import urlparse as up
                     norm = nu(link, root_url)
                     if norm and norm not in visited and up(norm).netloc == domain:
@@ -166,7 +166,7 @@ class DiscoveryService:
                             )
                             continue
                         visited.add(href)
-                        from tools.scrapper import classify_page_type as cpt
+                        from backend.tools.scrapper import classify_page_type as cpt
                         page_id = str(_uuid.uuid4())
                         doc = {
                             "_id": page_id, "audit_id": audit_id, "url": href,
@@ -174,7 +174,7 @@ class DiscoveryService:
                             "depth": 1, "discovered_from": root_url,
                             "artifact_uris": [], "created_at": _dt.utcnow().isoformat(),
                         }
-                        from db.nosql import pages_col as pc
+                        from backend.db.nosql import pages_col as pc
                         await pc().insert_one(doc)
                         found.append({"page_id": page_id, "url": href, "page_type": cpt(href), "depth": 1})
         except Exception as exc:

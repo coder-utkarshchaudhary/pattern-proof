@@ -6,9 +6,9 @@ Deterministic — no LLM calls.
 """
 import json
 from datetime import datetime
-from db.graph import get_driver, upsert_page_node, upsert_state_node, create_edge
-from db.nosql import pages_col, states_col, transitions_col
-from utils.logger import get_logger
+from backend.db.graph import get_driver, upsert_page_node, upsert_state_node, create_edge
+from backend.db.nosql import pages_col, states_col, transitions_col
+from backend.utils.logger import get_logger
 
 logger = get_logger(__name__)
 

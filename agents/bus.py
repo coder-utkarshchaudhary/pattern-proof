@@ -12,7 +12,7 @@ from uuid import UUID, uuid4
 
 from pydantic import BaseModel, Field
 
-from utils.logger import get_logger
+from backend.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
@@ -185,7 +185,7 @@ class RedpandaEventBus(EventBus):
 
 def create_event_bus() -> EventBus:
     """Return the configured EventBus backend based on BE_EVENT_BUS setting."""
-    from config import settings
+    from backend.config import settings
 
     if settings.event_bus == "redpanda":
         return RedpandaEventBus(settings.redpanda_bootstrap_servers)

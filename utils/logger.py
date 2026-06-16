@@ -2,7 +2,7 @@
 Centralised logging utility.
 
 All modules should use:
-    from utils.logger import get_logger
+    from backend.utils.logger import get_logger
     logger = get_logger(__name__)
 
 Logs are written to both stdout and a global log.log file.
@@ -13,7 +13,7 @@ import sys
 from pathlib import Path
 from typing import Optional
 
-from config import settings
+from backend.config import settings
 
 _LOG_FORMAT = "%(asctime)s | %(levelname)-8s | %(name)s | %(message)s"
 _DATE_FORMAT = "%Y-%m-%d %H:%M:%S"

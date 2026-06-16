@@ -12,11 +12,11 @@ from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, Request, status
 
-from api.dependencies import get_current_user, get_redis, get_supabase_client
-from db.sql import AuditRepo
-from models.schema import AuditRequest, AuditCreateResponse, JobStatus
-from models.taxonomy import AuditStatus
-from utils.logger import get_logger
+from backend.api.dependencies import get_current_user, get_redis, get_supabase_client
+from backend.db.sql import AuditRepo
+from backend.models.schema import AuditRequest, AuditCreateResponse, JobStatus
+from backend.models.taxonomy import AuditStatus
+from backend.utils.logger import get_logger
 
 router = APIRouter()
 logger = get_logger(__name__)
@@ -46,7 +46,7 @@ async def create_job(
     This endpoint delegates to the audit router's create_audit handler and
     returns the same AuditCreateResponse payload.
     """
-    from api.routes.audit import create_audit
+    from backend.api.routes.audit import create_audit
 
     result: AuditCreateResponse = await create_audit(
         body=body,

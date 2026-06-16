@@ -13,7 +13,7 @@ from uuid import UUID, uuid4
 
 from pydantic import BaseModel, EmailStr, Field, AnyHttpUrl, SecretStr
 
-from models.taxonomy import (
+from backend.models.taxonomy import (
     AuditStatus,
     FindingSeverity,
     EvidenceSource,

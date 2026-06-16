@@ -7,8 +7,8 @@ import json
 import re
 import uuid
 from datetime import datetime
-from db.nosql import network_col
-from utils.logger import get_logger
+from backend.db.nosql import network_col
+from backend.utils.logger import get_logger
 
 logger = get_logger(__name__)
 

@@ -1,10 +1,10 @@
 """Evidence retrieval endpoints."""
 from fastapi import APIRouter, Depends, HTTPException
 from typing import Annotated
-from api.dependencies import get_current_user
-from db.nosql import evidence_col
-from db.sql import get_supabase, AuditRepo
-from utils.logger import get_logger
+from backend.api.dependencies import get_current_user
+from backend.db.nosql import evidence_col
+from backend.db.sql import get_supabase, AuditRepo
+from backend.utils.logger import get_logger
 
 router = APIRouter()
 logger = get_logger(__name__)
@@ -58,7 +58,7 @@ async def get_screenshot(
     await _check_audit_access(audit_id, user)
     path = f"audits/{audit_id}/pages/{screenshot_id}/screenshot.png"
     try:
-        from db.sql import get_supabase
+        from backend.db.sql import get_supabase
         client = await get_supabase()
         # Create signed URL (60 minutes)
         signed = await client.storage.from_("pattern-proof").create_signed_url(path, 3600)

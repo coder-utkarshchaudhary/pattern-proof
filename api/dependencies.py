@@ -13,8 +13,8 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from jose import jwt, JWTError
 
-from config import settings
-from utils.logger import get_logger
+from backend.config import settings
+from backend.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
@@ -185,7 +185,7 @@ async def require_dev(
 
 async def get_supabase_client():
     """Yield an async Supabase client (service-role key — server-only)."""
-    from db.sql import get_supabase
+    from backend.db.sql import get_supabase
 
     return await get_supabase()
 
@@ -208,7 +208,7 @@ async def get_redis():
 
 async def get_storage():
     """Return the Supabase storage client for the pattern-proof bucket."""
-    from db.sql import get_supabase
+    from backend.db.sql import get_supabase
 
     client = await get_supabase()
     return client.storage.from_("pattern-proof")

@@ -21,12 +21,12 @@ from datetime import datetime
 
 import redis.asyncio as aioredis
 
-from config import settings
-from db.sql import get_supabase, AuditRepo
-from models.schema import AuditStreamEvent
-from models.taxonomy import AuditStatus
+from backend.config import settings
+from backend.db.sql import get_supabase, AuditRepo
+from backend.models.schema import AuditStreamEvent
+from backend.models.taxonomy import AuditStatus
 from backend.agents.bus import EventBus, EventEnvelope
-from utils.logger import get_logger
+from backend.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
